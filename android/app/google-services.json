@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "370823621311",
+    "project_id": "ecoalerta-lapaz",
+    "storage_bucket": "ecoalerta-lapaz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370823621311:android:9c9a6dc33e32f0dc4a340a",
+        "android_client_info": {
+          "package_name": "com.example.ecoalerta_lapaz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0F3sLjk88Glpqx52-Ym3SZlwiA6F0eys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

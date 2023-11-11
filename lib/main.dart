@@ -1,6 +1,6 @@
 import 'dart:developer';
-
 import 'package:ecoalerta_lapaz/firebase_options.dart';
+import 'package:ecoalerta_lapaz/ui/initial_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const InitialScreen(), // aquí ***
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -59,12 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance
-      .getToken()
-      .then((value) => log("Token: $value"));
+    FirebaseMessaging.instance.getToken().then((value) => log("Token: $value"));
 
-    
-    FirebaseMessaging.onMessage.listen((event) { 
+    FirebaseMessaging.onMessage.listen((event) {
       log("onMessage: $event");
       setState(() {
         notificationTitle = event.notification?.title;

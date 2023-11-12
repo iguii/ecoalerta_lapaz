@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:ecoalerta_lapaz/firebase_options.dart';
 import 'package:ecoalerta_lapaz/ui/initial_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 String? notificationTitle;
 String? notificationBody;
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const InitialScreen(), // aquí ***
+      home: const MyHomePage(title: "home page alv"), // aquí ***
       debugShowCheckedModeBanner: false,
     );
   }
@@ -60,7 +62,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getToken().then((value) => log("Token: $value"));
+    FirebaseMessaging.instance.getToken().then((value) {
+      log("Token: $value!");
+      postToken(value!);
+    });
 
     FirebaseMessaging.onMessage.listen((event) {
       log("onMessage: $event");
@@ -113,5 +118,29 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+void postToken(String token) async {
+  String url = ''; // ************ API URL ************
+  Map<String, String> headers = {"Content-Type": "application/json"};
+  String jsonBody = json.encode({
+    "FCMToken": token,
+  });
+
+  try {
+    http.Response response = await http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: jsonBody,
+    );
+
+    if (response.statusCode == 200) {
+      log('Token enviado correctamente: ${response.body}');
+    } else {
+      log('Error al enviar el token: ${response.statusCode}');
+    }
+  } catch (e) {
+    log('Error al conectar con la API: $e');
   }
 }
